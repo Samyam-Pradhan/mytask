@@ -9,5 +9,4 @@ COPY . .
 
 EXPOSE 5000
 
-# Production server
 CMD ["gunicorn", "-w", "3", "-b", "0.0.0.0:5000", "run:app"]
