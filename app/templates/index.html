@@ -3,37 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MyTask</title>
+  <title>My Task</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="box">
+<main class="app-container">
+  <header class="app-header">
+    <h1>My<span>Task</span></h1>
+  </header>
 
-  <h1>📝 My Task</h1>
+  <section class="input-section">
+    <form action="/add" method="POST" class="task-form">
+      <input type="text" name="title" placeholder="Add a new task ..." autocomplete="off" required>
+      <button type="submit" class="btn-add">Add Task</button>
+    </form>
+  </section>
 
-  <form action="/add" method="POST">
-    <input type="text" name="title" placeholder="Add a task..." required>
-    <button>Add</button>
-  </form>
-
-  <p class="count">{{ tasks|length }} tasks</p>
-
-  {% for task in tasks %}
-  <div class="task {% if task.completed %}done{% endif %}">
-    <span>{{ task.title }}</span>
-    <div>
-      <a href="/toggle/{{ task.id }}">✓</a>
-      <a href="/delete/{{ task.id }}">🗑</a>
+  <section class="task-list">
+    {% for task in tasks %}
+    <div class="task-card {% if task.completed %}is-complete{% endif %}">
+      <div class="task-content">
+        <span class="task-title">{{ task.title }}</span>
+      </div>
+      <div class="task-actions">
+        <a href="/toggle/{{ task.id }}" class="action-btn btn-check" title="Toggle Complete">✕</a>
+        <a href="/delete/{{ task.id }}" class="action-btn btn-delete" title="Delete Task">🗑</a>
+      </div>
     </div>
-  </div>
-  {% endfor %}
+    {% endfor %}
 
-  {% if tasks|length == 0 %}
-    <p class="empty">No tasks yet</p>
-  {% endif %}
-
-</div>
+    {% if tasks|length == 0 %}
+    <div class="empty-state">
+      <p>No task remaining</p>
+    </div>
+    {% endif %}
+  </section>
+</main>
 
 </body>
 </html>
